@@ -14,8 +14,9 @@ const insertAlunoCurso = async function(alunoCurso){
         const prisma = new PrismaClient() //INSTANCIA DA CLASSE PrismaClient
 
         let sql = `insert into tbl_aluno_curso (id_aluno, id_curso, matricula, status_aluno)
-                values( '${alunouCurso.idAluno}', '${alunoCurso.idCurso}', '${alunoCurso.matricula}', ${alunoCurso.status_aluno})`
+                values ('${alunoCurso.id_aluno}', '${alunoCurso.id_curso}', '${alunoCurso.matricula}', '${alunoCurso.status_aluno}')`
 
+                
         //executa o script sql no banco de dados (.$executeRawUnsafe permite encaminhar uma variavel contendo o script)
         const result = await prisma.$executeRawUnsafe (sql)
         

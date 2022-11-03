@@ -32,6 +32,7 @@ const novoAluno = async function (aluno) {
             //Chama a funcao que veririfca qual o ID gerado para o novo aluno
             let idNovoAluno = await novoAluno.selectLastId()
 
+            
             if (idNovoAluno > 0) {
 
                 //Cria um objeto JSON
