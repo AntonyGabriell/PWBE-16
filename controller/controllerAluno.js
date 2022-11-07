@@ -169,20 +169,31 @@ const buscarAluno = async function (id) {
         return { status: 400, message: MESSAGE_ERROR.REQUIRE_ID }
     } else {
 
+        //Import das models aluno e alunoCurso
         const { selectByIdAluno } = require('../model/DAO/aluno.js')
+        const {selectAlunoCurso} = require ('../model/DAO/aluno_curso.js')
 
         const dadosAluno = await selectByIdAluno(id)
 
         if (dadosAluno) {
-            //Conversao do tipo de dados BigInt para int ???????
-            // dadosAlunos.reverse().forEach(element => {
-            //  element.id = Number(element.id)
-            //})
+
+            const dadosAlunoCurso = await selectAlunoCurso(id)
+
+            if(dadosAlunoCurso){
 
             //Criamos uma chave alunos no jSON para retornar o array de alunos
-            dadosAlunosJSON.aluno = dadosAluno
+            dadosAluno[0].curso = dadosAlunoCurso
+
+            dadosAlunosJSON.aluno.curso = dadosAlunoCurso
+
             return dadosAlunosJSON
-        } else {
+            
+        }else{
+            dadosAlunosJSON.aluno.curso = dadosAlunoCurso
+
+            return dadosAlunosJSON
+        }
+         else {
             return false
         }
     }
