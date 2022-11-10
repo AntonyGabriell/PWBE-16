@@ -49,8 +49,9 @@ const selectAlunoCurso = async function(idAluno){
                 on tbl_curso.id = tbl_aluno_curso.id_curso
         where tbl_aluno.id = ${idAluno};`
 
+        
         const rsAlunoCurso = await prisma.$queryRawUnsafe(sql)      
-
+            
         if(rsAlunoCurso.length > 0){
             return rsAlunoCurso
         }

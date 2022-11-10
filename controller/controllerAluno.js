@@ -32,7 +32,7 @@ const novoAluno = async function (aluno) {
             //Chama a funcao que veririfca qual o ID gerado para o novo aluno
             let idNovoAluno = await novoAluno.selectLastId()
 
-            
+
             if (idNovoAluno > 0) {
 
                 //Cria um objeto JSON
@@ -53,18 +53,18 @@ const novoAluno = async function (aluno) {
                 //Chama a funcao para inserir na tabela alunoCurso
                 const resultNovoAlunoCurso = await novoAlunoCurso.insertAlunoCurso(alunoCurso)
 
-                if(resultNovoAlunoCurso){
+                if (resultNovoAlunoCurso) {
                     return { status: 201, message: MESSAGE_SUCCESS.INSERT_ITEM }
-                }else{
-                    
+                } else {
+
                     //Caso aconteca um erro neste processo, obrigatoriamente
                     //devera ser excluido do DB o registro do aluno.
                     excluirAluno(idNovoAluno)
                     return { status: 500, message: MESSAGE_ERROR.INTERNAL_ERROR_DB }
                 }
-                    
-            }else{
-                    
+
+            } else {
+
                 //Caso aconteca um erro neste processo, obrigatoriamente
                 //devera ser excluido do DB o registro do aluno.
                 excluirAluno(idNovoAluno)
@@ -171,7 +171,7 @@ const buscarAluno = async function (id) {
 
         //Import das models aluno e alunoCurso
         const { selectByIdAluno } = require('../model/DAO/aluno.js')
-        const {selectAlunoCurso} = require ('../model/DAO/aluno_curso.js')
+        const { selectAlunoCurso } = require('../model/DAO/aluno_curso.js')
 
         const dadosAluno = await selectByIdAluno(id)
 
@@ -179,21 +179,21 @@ const buscarAluno = async function (id) {
 
             const dadosAlunoCurso = await selectAlunoCurso(id)
 
-            if(dadosAlunoCurso){
+            if (dadosAlunoCurso) {
 
-            //Criamos uma chave alunos no jSON para retornar o array de alunos
-            dadosAluno[0].curso = dadosAlunoCurso
+                //Criamos uma chave alunos no jSON para retornar o array de alunos
+                dadosAluno[0].curso = dadosAlunoCurso
+                
+                dadosAlunosJSON.aluno = dadosAluno
 
-            dadosAlunosJSON.aluno.curso = dadosAlunoCurso
+                return dadosAlunosJSON
 
-            return dadosAlunosJSON
-            
-        }else{
-            dadosAlunosJSON.aluno.curso = dadosAlunoCurso
+            } else {
 
-            return dadosAlunosJSON
-        }
-         else {
+                dadosAlunosJSON.aluno = dadosAluno
+                return dadosAlunosJSON
+            }
+        } else {
             return false
         }
     }
